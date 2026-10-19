@@ -18,8 +18,10 @@ Entorno de desarrollo: Windows 11 (usa `mvnw.cmd` o Git Bash). Docker Desktop de
 ./mvnw clean verify          # compila + tests unitarios e integración (Testcontainers) + spotless:check
 ./mvnw test                  # solo unitarios (las pruebas de integración se llaman *IT y corren en verify)
 ./mvnw spotless:apply        # formatea el código (palantir-java-format); el CI falla si no está formateado
-./mvnw spring-boot:run       # arranca el backend (necesita Postgres y Mailpit)
-docker compose up -d         # postgres + mailpit (+ backend)
+cp .env.example .env                    # una vez: variables de desarrollo (.env no se sube a git)
+docker compose up -d --build            # backend + postgres + mailpit
+docker compose up -d postgres mailpit   # solo infraestructura, para usar spring-boot:run
+./mvnw spring-boot:run                  # arranca el backend contra el Postgres y el Mailpit del compose
 ```
 - Swagger: `http://localhost:8080/swagger` · Correos de desarrollo (Mailpit): `http://localhost:8025`
 - Variables de entorno principales: `SPRING_DATASOURCE_URL`, `JWT_SECRET`, `JWT_ACCESS_TTL`, `JWT_REFRESH_TTL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_FROM`, `FRONTEND_URL`, `APP_TIMEZONE`, `AVATAR_STORAGE_PATH`. Nunca escribas secretos en el código ni en el repositorio.

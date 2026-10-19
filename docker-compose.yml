@@ -1,0 +1,46 @@
+# Entorno de desarrollo: backend + PostgreSQL 16 + Mailpit (esquema-backend.md §8).
+# Variables en .env (copia de .env.example); los valores por defecto son solo de desarrollo.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taskflow}
+      POSTGRES_USER: ${POSTGRES_USER:-taskflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taskflow}
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:v1.31
+    ports: ["1025:1025", "8025:8025"]
+
+  backend:
+    build: .
+    depends_on:
+      postgres: { condition: service_healthy }
+      mailpit: { condition: service_started }
+    ports: ["8080:8080"]
+    volumes: ["avatars:/data/avatars"]
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-taskflow}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflow}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-taskflow}
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      MAIL_FROM: ${MAIL_FROM:-TaskFlow <no-reply@taskflow.local>}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      APP_TIMEZONE: ${APP_TIMEZONE:-UTC}
+      JWT_SECRET: ${JWT_SECRET:-}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-15m}
+      JWT_REFRESH_TTL: ${JWT_REFRESH_TTL:-7d}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      AVATAR_STORAGE_PATH: /data/avatars
+
+volumes:
+  pgdata:
+  avatars:
