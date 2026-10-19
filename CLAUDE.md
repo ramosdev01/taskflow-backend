@@ -15,8 +15,9 @@ La especificación completa vive en `docs/`. **Esos documentos son la fuente de 
 ## Comandos
 Entorno de desarrollo: Windows 11 (usa `mvnw.cmd` o Git Bash). Docker Desktop debe estar encendido para los tests de integración.
 ```
-./mvnw clean verify          # compila + tests unitarios e integración (Testcontainers)
-./mvnw test                  # solo unitarios
+./mvnw clean verify          # compila + tests unitarios e integración (Testcontainers) + spotless:check
+./mvnw test                  # solo unitarios (las pruebas de integración se llaman *IT y corren en verify)
+./mvnw spotless:apply        # formatea el código (palantir-java-format); el CI falla si no está formateado
 ./mvnw spring-boot:run       # arranca el backend (necesita Postgres y Mailpit)
 docker compose up -d         # postgres + mailpit (+ backend)
 ```

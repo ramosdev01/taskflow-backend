@@ -50,7 +50,7 @@ Objetivo: que ningún servicio tenga que reabrirse para "enchufar" permisos, eve
 **Objetivo:** el proyecto compila, arranca contra Postgres con `V1` aplicado, responde errores RFC 7807 y publica Swagger; el CI está en verde.
 **Depende de:** nada. **Leer:** TRD §5 y §7; esquema §1, §2, §7–§10; contratos §1–§2; ADR-004, 006, 010.
 
-- [ ] S0-1 — Repositorio, CI y dependencias compatibles con Boot 4.1.1
+- [x] S0-1 — Repositorio, CI y dependencias compatibles con Boot 4.1.1
   - `git init`, commit inicial a `main`, rama `develop`. Workflow de GitHub Actions: `./mvnw verify` en cada PR.
   - Se añaden los starters del stack **verificando cada uno contra Boot 4.1.1** (nombres modularizados, Jackson 3, versiones de springdoc, Bucket4j y Testcontainers compatibles). Spotless + palantir.
   - Pruebas: el contexto arranca con Testcontainers.
