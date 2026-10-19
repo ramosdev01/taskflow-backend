@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TaskflowBackendApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(TaskflowBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TaskflowBackendApplication.class, args);
+    }
 }
