@@ -56,8 +56,9 @@ Objetivo: que ningún servicio tenga que reabrirse para "enchufar" permisos, eve
   - Pruebas: el contexto arranca con Testcontainers.
 - [x] S0-2 — Docker de desarrollo
   - `Dockerfile` (Java 25) y `docker-compose.yml` según esquema §8, con `.env.example`. El CI construye la imagen (TRD §7.4). La cookie sin `Secure` en local se configura en E1-3, cuando exista la cookie; las propiedades `app.*` las enlaza la historia que las usa.
-- [ ] S0-3 — Paquetes de esquema §2 y `V1__init.sql`
+- [x] S0-3 — Paquetes de esquema §2 y `V1__init.sql`
   - Todas las tablas v1, `pg_trgm`, CHECK de ADR-011 y de `taskLimit`, únicas de posición **diferibles**, índices de §9, `CASCADE`/`SET NULL` según §1. Las entidades JPA se crean en la historia que las usa (no aquí).
+  - Decisiones de tipos: textos libres en `text` (límites de ADR-004 en el servicio); enums en `varchar` + `CHECK`; `id` y marcas de tiempo sin `DEFAULT` (los fija la app con el `Clock`). Además de §9, índices sobre las FK que se recorren por usuario o en cascada (`user_id` de los tres tokens, `comment_mention.mentioned_user_id`, `task_tag.tag_id`).
   - Pruebas: Flyway aplica en limpio; intercambio de dos posiciones en una transacción (diferibilidad); CHECK de tarea completada.
 - [ ] S0-6 — Zona horaria, límites y reloj
   - `@ConfigurationProperties` con `APP_TIMEZONE`, límites de ADR-010 y los configurables de ADR-004; bean `Clock`; `app.clock.fixed` solo en `dev`.
