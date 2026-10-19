@@ -54,8 +54,8 @@ Objetivo: que ningún servicio tenga que reabrirse para "enchufar" permisos, eve
   - `git init`, commit inicial a `main`, rama `develop`. Workflow de GitHub Actions: `./mvnw verify` en cada PR.
   - Se añaden los starters del stack **verificando cada uno contra Boot 4.1.1** (nombres modularizados, Jackson 3, versiones de springdoc, Bucket4j y Testcontainers compatibles). Spotless + palantir.
   - Pruebas: el contexto arranca con Testcontainers.
-- [ ] S0-2 — Docker de desarrollo
-  - `Dockerfile` (Java 25) y `docker-compose.yml` según esquema §8. Perfil local con la cookie sin `Secure` (ADR-007). El CI construye la imagen (TRD §7.4).
+- [x] S0-2 — Docker de desarrollo
+  - `Dockerfile` (Java 25) y `docker-compose.yml` según esquema §8, con `.env.example`. El CI construye la imagen (TRD §7.4). La cookie sin `Secure` en local se configura en E1-3, cuando exista la cookie; las propiedades `app.*` las enlaza la historia que las usa.
 - [ ] S0-3 — Paquetes de esquema §2 y `V1__init.sql`
   - Todas las tablas v1, `pg_trgm`, CHECK de ADR-011 y de `taskLimit`, únicas de posición **diferibles**, índices de §9, `CASCADE`/`SET NULL` según §1. Las entidades JPA se crean en la historia que las usa (no aquí).
   - Pruebas: Flyway aplica en limpio; intercambio de dos posiciones en una transacción (diferibilidad); CHECK de tarea completada.

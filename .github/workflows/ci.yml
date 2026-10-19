@@ -28,3 +28,7 @@ jobs:
       # Compila, pruebas unitarias e integración (Testcontainers) y spotless:check
       - name: Build y pruebas
         run: ./mvnw -B -ntp verify
+
+      # Valida el Dockerfile (TRD §7.4); la imagen no se publica
+      - name: Imagen Docker
+        run: docker build -t taskflow-backend:ci .
